@@ -19,17 +19,9 @@ import {
 
 const ProfilePage = () => {
   const { user } = useUser();
+  const userId = user?.id as string;
 
-  const allPlans = useQuery(
-    api.plans.getUserPlans,
-    user ? { userId: user.id } : "skip" // ✅ now fully type-safe
-  );
-  
-  if (!user) {
-    return <div>Loading your profile...</div>;
-  }
-  
-
+  const allPlans = useQuery(api.plans.getUserPlans, { userId });
   const [selectedPlanId, setSelectedPlanId] = useState<null | string>(null);
 
   const activePlan = allPlans?.find((plan) => plan.isActive);
